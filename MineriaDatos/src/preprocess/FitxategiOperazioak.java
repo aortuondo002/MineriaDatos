@@ -1,5 +1,5 @@
 package preprocess;
-//----------------------------------------------------------
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,87 +9,55 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import weka.core.Instances;
-import weka.core.converters.ArffSaver;
-
 public class FitxategiOperazioak {
 
-	private ArrayList<String> burukoakKendu(ArrayList<String> osoa, String[] pathLista) {
-		for (int i = 6; i < osoa.size(); i++) {
-			if (osoa.get(i).startsWith("@")) {
-				osoa.set(i, "%BESTE FITXATEGI BAT");
-			}
-		}
-		for (int i = 0; i < pathLista.length; i++) {
-			osoa.add("%" + pathLista[i]);
-		}
-		return osoa;
-	}
-
-	public void fitxategiBerriakGorde(String[] path, InstantziaOperazioak iOp, String ipintzeko) throws IOException {
-		System.out.println();
-		for (int i = 0; i < path.length; i++) {
-			if (path[i].contains("test")) {
-				this.oraingoFitxategiaGorde(iOp.getTest(), this.pathEraldatu(path[i], "test_blind_" + ipintzeko));
-			} else if (path[i].contains("dev")) {
-				this.oraingoFitxategiaGorde(iOp.getDev(), this.pathEraldatu(path[i], "dev_" + ipintzeko));
-			} else {
-				this.oraingoFitxategiaGorde(iOp.getTrain(), this.pathEraldatu(path[i], "train_" + ipintzeko));
-			}
-		}
-
-	}
-
-	public String fitxategiOsoaGorde(ArrayList<String> osoa, String path) throws IOException {
-		String pathBerria = this.pathEraldatu(path, "osoa");
-		System.out.println("Fitxategi osoa gordeko den path:\n" + pathBerria);
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(pathBerria)));
-		for (Iterator<String> iterator = osoa.iterator(); iterator.hasNext();) {
-			bw.write(iterator.next());
-			bw.newLine();
+	public void arffIdatzi(String lekua, ArrayList<String[]> array) throws IOException {
+		FileWriter fw = new FileWriter(lekua);
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write("@RELATION spam\n\n");
+		bw.write("@ATTRIBUTE text STRING\n");
+		bw.write("@ATTRIBUTE klasea {ham,spam}\n\n");
+		bw.write("@DATA\n");
+		Iterator<String[]> i = array.iterator();
+		while (i.hasNext()) {
+			String[] arrayberria = i.next();
+			bw.write("'" + arrayberria[1].replace('\'', '-') + "'" + "," + arrayberria[0] + "\n");
 		}
 		bw.flush();
 		bw.close();
-		return pathBerria;
+		System.out.println("Arff-a " + lekua + " fitxategian gorde da");
 	}
 
-	public Instances instantziakIrakurri(String path) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
-		Instances data = new Instances(br);
-		br.close();
-		return data;
-	}
-
-	public ArrayList<String> lerroakIrakurri(String[] pathLista) throws IOException {
-		ArrayList<String> osoa = new ArrayList<>();
-		BufferedReader br = null;
-		String lerroa = "";
-		for (int i = 0; i < pathLista.length; i++) {
-			br = new BufferedReader(new FileReader(new File(pathLista[i])));
-			while ((lerroa = br.readLine()) != null)
-				osoa.add(lerroa);
+	public ArrayList<String[]> datuakIrakurri(String fitxategia) throws IOException {
+		FileReader fr = new FileReader(fitxategia);
+		BufferedReader br = new BufferedReader(fr);
+		ArrayList<String[]> array = new ArrayList<>();
+		String s;
+		while ((s = br.readLine()) != null) {
+			String[] sa = s.split("\t");
+			if (sa[0].equalsIgnoreCase("ham")) {
+				array.add(new String[] { sa[0], s.substring(4, s.length()) });
+			} else if (sa[0].equalsIgnoreCase("spam")) {
+				array.add(new String[] { sa[0], s.substring(5, s.length()) });
+			} else {
+				array.add(new String[] { "?", s });
+			}
 		}
 		br.close();
-		return this.burukoakKendu(osoa, pathLista);
+		return array;
 	}
 
-	private void oraingoFitxategiaGorde(Instances oraingoa, String path) throws IOException {
-		ArffSaver gorde = new ArffSaver();
-		File f = new File(path);
-		System.out.println("Fitxategia gordeko den path-a: " + path);
-		gorde.setDestination(f);
-		gorde.setFile(f);
-		gorde.setInstances(oraingoa);
-		gorde.writeBatch();
+	private String fitxategiarenIzenaEraiki(String kargatzeko) {
+		return kargatzeko.substring(0, kargatzeko.length() - 4) + ".arff";
 	}
 
-	private String pathEraldatu(String path, String ipintzeko) {
-		if (path.contains("test"))
-			path = path.replace("test_blind", ipintzeko);
-		else if (path.contains("dev"))
-			path = path.replace("dev", ipintzeko);
+	public String fitxategiaSortu(String lekua) throws IOException {
+		String lekuaARFF = fitxategiarenIzenaEraiki(lekua);
+		File f = new File(lekuaARFF);
+		if (!f.exists())
+			f.createNewFile();
 		else
-			path = path.replace("train", ipintzeko);
-		return path;
+			f.delete();
+		return lekuaARFF;
 	}
 }
