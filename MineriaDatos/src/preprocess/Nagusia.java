@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Nagusia {
-	private static final String IZENBURUA = "SpamConvert - 1.0.0";
 
 	private static void laguntzaInprimatu() {
 		System.err.println("Programak funtzionatzeko argumentuetan txt fitxategiaren lekua jaso behar du!");
@@ -15,7 +14,7 @@ public class Nagusia {
 	}
 
 	public static void main(String[] args) throws IOException {
-		System.out.println(IZENBURUA);
+		
 		if (args.length < 1)
 			Nagusia.laguntzaInprimatu();
 		for (int i = 0; i < args.length; i++) {
