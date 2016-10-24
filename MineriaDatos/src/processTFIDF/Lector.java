@@ -32,6 +32,10 @@ public class Lector {
 		this.data.addAll(dev);	
 	}
 	
+	public Instances getDatos(){
+		return this.data;
+	}
+	
 	
 	
 	
