@@ -6,13 +6,13 @@ import java.io.IOException;
 
 import weka.core.Instances;
 
-public class ArffLoader {
+public class Loader {
 	
 	private String path1;
 	private String path2;
 	private Instances allData;
 	
-	public ArffLoader(String path1, String path2){
+	public Loader(String path1, String path2){
 		this.path1 = path1;
 		this.path2 = path2;
 		allData = null;
@@ -20,10 +20,14 @@ public class ArffLoader {
 	}
 
 	private void start(String path1, String path2) {
+		System.out.println("Leyendo a");
 		Instances a = load(path1);
+		System.out.println("Leyendo b");
 		Instances b = load(path2);
-		a.addAll(b);
-		allData = a;
+		System.out.println("juntando instancias");
+		allData = new Instances(a);
+		allData.addAll(b);
+		System.out.println("Instancias juntadas");
 	}
 
 	private Instances load(String path) {
