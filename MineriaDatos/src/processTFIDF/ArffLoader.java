@@ -6,13 +6,13 @@ import java.io.IOException;
 
 import weka.core.Instances;
 
-public class Loader {
-	
+public class ArffLoader {
+
 	private String path1;
 	private String path2;
 	private Instances allData;
-	
-	public Loader(String path1, String path2){
+
+	public ArffLoader(String path1, String path2){
 		this.path1 = path1;
 		this.path2 = path2;
 		allData = null;
@@ -20,14 +20,10 @@ public class Loader {
 	}
 
 	private void start(String path1, String path2) {
-		System.out.println("Leyendo a");
 		Instances a = load(path1);
-		System.out.println("Leyendo b");
 		Instances b = load(path2);
-		System.out.println("juntando instancias");
-		allData = new Instances(a);
-		allData.addAll(b);
-		System.out.println("Instancias juntadas");
+		a.addAll(b);
+		allData = a;
 	}
 
 	private Instances load(String path) {
@@ -40,6 +36,7 @@ public class Loader {
 		}
 		try {
 			data = new Instances(fi);
+			data.setClassIndex(1);
 		} catch (IOException e) {
 			System.out.println("Error: revisar contenido del fichero de datos: "+path);
 		}
@@ -50,9 +47,10 @@ public class Loader {
 		}
 		return data;
 	}
-	
+
 	public Instances getData(){
 		return this.allData;
 	}
+
 
 }

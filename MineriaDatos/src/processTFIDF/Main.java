@@ -14,8 +14,12 @@ public class Main {
 		String a = args[0];
 		String b = args[1];
 		System.out.println("leyendo datos");
-		Loader arfldr = new Loader(a, b);
+		ArffLoader arfldr = new ArffLoader(a, b);
 		allData = arfldr.getData();
+		
+		System.out.println(allData.numInstances());
+		
+		allData.setClassIndex(1);
 		
 		allData = tfidf.convertirDatos(allData);
 		
@@ -27,7 +31,6 @@ public class Main {
 		} else {
 			a.replace("train.arff", "trainBOW_FSS_TFIDF.arff");
 		}
-		System.out.println(allData.numInstances());
 		saver.setFile(new File(a));
 		saver.writeBatch();//java.lang.IndexOutOfBoundsException -> no se puede guardar, seguir sin guardarel arff?
 		

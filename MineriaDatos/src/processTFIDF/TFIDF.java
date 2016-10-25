@@ -1,6 +1,7 @@
 package processTFIDF;
 
 import weka.core.Instances;
+import weka.core.tokenizers.WordTokenizer;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 import weka.filters.unsupervised.instance.SparseToNonSparse;
@@ -20,9 +21,13 @@ public class TFIDF {
 		StringToWordVector stwv = new StringToWordVector();
 		stwv.setIDFTransform(true);
 		stwv.setTFTransform(true);
-		stwv.setAttributeIndicesArray(new int[] { 0 });
 		stwv.setLowerCaseTokens(true);
-		// datos= noDispersa(datos);
+		stwv.setAttributeIndicesArray(new int[] { 0 });
+		WordTokenizer token = new WordTokenizer();
+		String delimitiers = " \r\t\n.,;:\'\"()-><#&*+/^_=[]{}|`~";
+		token.setDelimiters(delimitiers);
+		stwv.setWordsToKeep(2000);
+//		datos= noDispersa(datos);
 		return Filter.useFilter(datos, stwv);
 	}
 
