@@ -5,6 +5,13 @@ import java.util.ArrayList;
 
 public class Nagusia {
 
+	private static void fitxategiaGorde(String fitxategia) throws IOException {
+		FitxategiOperazioak f = new FitxategiOperazioak();
+		ArrayList<String[]> array = f.datuakIrakurri(fitxategia);
+		System.out.println("Emandako fitxategia " + fitxategia + " da, eta honek " + array.size() + " tupla ditu");
+		f.arffIdatzi(f.fitxategiaSortu(fitxategia), array);
+	}
+
 	private static void laguntzaInprimatu() {
 		System.err.println("Programak funtzionatzeko argumentuetan txt fitxategiaren lekua jaso behar du!");
 		System.out.println("Adibidez: java -jar /path/to/spam.jar /path/test.txt");
@@ -14,19 +21,12 @@ public class Nagusia {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
+
 		if (args.length < 1)
 			Nagusia.laguntzaInprimatu();
 		for (int i = 0; i < args.length; i++) {
 			fitxategiaGorde(args[i]);
 		}
-	}
-
-	private static void fitxategiaGorde(String fitxategia) throws IOException {
-		FitxategiOperazioak f = new FitxategiOperazioak();
-		ArrayList<String[]> array = f.datuakIrakurri(fitxategia);
-		System.out.println("Emandako fitxategia " + fitxategia + " da, eta honek " + array.size() + " tupla ditu");
-		f.arffIdatzi(f.fitxategiaSortu(fitxategia), array);
 	}
 
 }
