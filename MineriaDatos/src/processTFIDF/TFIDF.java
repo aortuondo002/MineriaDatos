@@ -7,13 +7,7 @@ import weka.filters.unsupervised.instance.SparseToNonSparse;
 
 public class TFIDF {
 
-	public Instances datos;
-
 	public TFIDF() {
-	}
-
-	public Instances convertirDatos(Instances Datos) throws Exception {
-		return datosTFIDF(this.datos);
 	}
 
 	public Instances datosTFIDF(Instances datos) throws Exception {
@@ -22,7 +16,9 @@ public class TFIDF {
 		stwv.setTFTransform(true);
 		stwv.setAttributeIndicesArray(new int[] { 0 });
 		stwv.setLowerCaseTokens(true);
+		stwv.setInputFormat(datos);
 		// datos= noDispersa(datos);
+		
 		return Filter.useFilter(datos, stwv);
 	}
 

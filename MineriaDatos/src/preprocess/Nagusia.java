@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 public class Nagusia {
 
-	private static void fitxategiaGorde(String fitxategia) throws IOException {
+	private static void fitxategiaGorde(String[] fitxategia) throws IOException {
 		FitxategiOperazioak f = new FitxategiOperazioak();
-		ArrayList<String[]> array = f.datuakIrakurri(fitxategia);
-		System.out.println("Emandako fitxategia " + fitxategia + " da, eta honek " + array.size() + " tupla ditu");
-		f.arffIdatzi(f.fitxategiaSortu(fitxategia), array);
+		ArrayList<String[]> array= new ArrayList<String[]>();
+			for(int i=0;i<2;i++){
+				array.addAll(f.datuakIrakurri(fitxategia[i]));
+		}
+		f.arffIdatzi(f.fitxategiaSortu(fitxategia[1]), array);
+		System.out.println("Emandako fitxategiak " + array.size() + " tupla ditu");
 	}
 
 	private static void laguntzaInprimatu() {
@@ -24,9 +27,7 @@ public class Nagusia {
 
 		if (args.length < 1)
 			Nagusia.laguntzaInprimatu();
-		for (int i = 0; i < args.length; i++) {
-			fitxategiaGorde(args[i]);
-		}
+			fitxategiaGorde(args);
 	}
 
 }

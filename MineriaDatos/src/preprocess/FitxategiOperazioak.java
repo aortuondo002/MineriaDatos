@@ -6,8 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import weka.core.Instances;
 
 public class FitxategiOperazioak {
 
@@ -32,9 +35,12 @@ public class FitxategiOperazioak {
 		FileReader fr = new FileReader(fitxategia);
 		BufferedReader br = new BufferedReader(fr);
 		ArrayList<String[]> array = new ArrayList<>();
+		Charset utf8= Charset.forName("UTF-8");
 		String s;
 		while ((s = br.readLine()) != null) {
+			s=utf8.decode(utf8.encode(s)).toString();
 			String[] sa = s.split("\t");
+			s=s.replaceAll("[^A-Za-z0-9 ]", "");
 			if (sa[0].equalsIgnoreCase("ham")) {
 				array.add(new String[] { sa[0], s.substring(4, s.length()) });
 			} else if (sa[0].equalsIgnoreCase("spam")) {
@@ -48,7 +54,12 @@ public class FitxategiOperazioak {
 	}
 
 	private String fitxategiarenIzenaEraiki(String kargatzeko) {
-		return kargatzeko.substring(0, kargatzeko.length() - 4) + ".arff";
+		if (kargatzeko.contains("dev")){
+			return kargatzeko.replace("dev.txt", "datos.arff");
+		}
+		else {
+			return kargatzeko.replace("train.txt", "datos.arff");
+		}
 	}
 
 	public String fitxategiaSortu(String lekua) throws IOException {
@@ -60,4 +71,5 @@ public class FitxategiOperazioak {
 			f.delete();
 		return lekuaARFF;
 	}
+	
 }
