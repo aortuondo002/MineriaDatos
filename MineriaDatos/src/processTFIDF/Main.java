@@ -4,6 +4,7 @@ package processTFIDF;
 import weka.core.Instances;
 
 public class Main {
+
 	private static FitxategiOperazioak f;
 	private static TFIDF tfidf;
 
@@ -15,6 +16,7 @@ public class Main {
 		Instances stwv = tfidf.datosTFIDF(datos);
 		System.out.println(stwv.toSummaryString());
 		f.guardarArchivos(stwv, args[0]);
+
 	}
 
 	public Main() {

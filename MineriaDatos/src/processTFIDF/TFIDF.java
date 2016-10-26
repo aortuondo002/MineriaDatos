@@ -14,12 +14,10 @@ public class TFIDF {
 		StringToWordVector stwv = new StringToWordVector();
 		stwv.setIDFTransform(true);
 		stwv.setTFTransform(true);
-		stwv.setAttributeIndicesArray(new int[] { 0 });
 		stwv.setLowerCaseTokens(true);
 		stwv.setInputFormat(datos);
 		// datos= noDispersa(datos);
-		
-		return Filter.useFilter(datos, stwv);
+return Filter.useFilter(datos, stwv);
 	}
 
 	public Instances noDispersa(Instances datos) throws Exception {
