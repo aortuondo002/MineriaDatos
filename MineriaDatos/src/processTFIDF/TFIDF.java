@@ -18,7 +18,7 @@ public class TFIDF {
 		stwv.setLowerCaseTokens(true);
 		stwv.setWordsToKeep(Integer.MAX_VALUE);
 		stwv.setInputFormat(datos);
-		datos= Filter.useFilter(datos,stwv);
+		datos = Filter.useFilter(datos, stwv);
 		return noDispersa(datos);
 	}
 
@@ -27,9 +27,9 @@ public class TFIDF {
 		stnp.setInputFormat(datos);
 		return Filter.useFilter(datos, stnp);
 	}
-	
-	public Instances quitarClase(Instances datos) throws Exception{
-		Remove r= new Remove();
+
+	public Instances quitarClase(Instances datos) throws Exception {
+		Remove r = new Remove();
 		r.setAttributeIndicesArray(new int[datos.classIndex()]);
 		return Filter.useFilter(datos, r);
 	}

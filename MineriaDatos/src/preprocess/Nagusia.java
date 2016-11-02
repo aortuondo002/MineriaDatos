@@ -7,9 +7,9 @@ public class Nagusia {
 
 	private static void fitxategiaGorde(String[] fitxategia) throws IOException {
 		FitxategiOperazioak f = new FitxategiOperazioak();
-		ArrayList<String[]> array= new ArrayList<String[]>();
-			for(int i=0;i<2;i++){
-				array.addAll(f.datuakIrakurri(fitxategia[i]));
+		ArrayList<String[]> array = new ArrayList<>();
+		for (int i = 0; i < 2; i++) {
+			array.addAll(f.datuakIrakurri(fitxategia[i]));
 		}
 		f.arffIdatzi(f.fitxategiaSortu(fitxategia[1]), array);
 		System.out.println("Emandako fitxategiak " + array.size() + " tupla ditu");
@@ -27,7 +27,7 @@ public class Nagusia {
 
 		if (args.length < 1)
 			Nagusia.laguntzaInprimatu();
-			fitxategiaGorde(args);
+		fitxategiaGorde(args);
 	}
 
 }
