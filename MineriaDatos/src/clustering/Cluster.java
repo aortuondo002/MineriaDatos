@@ -10,13 +10,16 @@ import weka.core.Instances;
 public class Cluster {
 	
 	public Instances points;
+	public Instance centroide;
 	public int id;
 	
 	//Creates a new Cluster
-	public Cluster(int id){
+	public Cluster(int id,Instances grupo){
+		this.points=grupo;
+		this.centroide=CalcularCentroide();
 	}
  
-	public List<Instance> getPoints() {
+	public Instances getPoints() {
 		return points;
 	}
 	
@@ -51,14 +54,14 @@ public class Cluster {
 			}
 			
 		}
-		return null;
+		return centroide;
 	}
+	 
 
-	public void plotCluster() {
+	public void imprimirCluster() {
 		System.out.println("[Cluster: " + id+"]");
-		System.out.println("[Centroid: " + centroid + "]");
 		System.out.println("[Points: \n");
-		for(Point p : points) {
+		for(Instance p : points) {
 			System.out.println(p);
 		}
 		System.out.println("]");
