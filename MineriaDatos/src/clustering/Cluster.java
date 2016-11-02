@@ -34,7 +34,10 @@ public class Cluster {
 	}
 	
 	public DenseInstance CalcularCentroide() {
+		Instances grupo= new Instances(points);
+		grupo.delete();
 		DenseInstance centroide = new DenseInstance(points.numAttributes());
+		grupo.add(centroide);
 		for (int i = 0; i < points.size(); i++) {
 			if (points.attribute(i).isNumeric()) {
 				double dist=0;
