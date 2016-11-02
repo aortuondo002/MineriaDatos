@@ -40,7 +40,7 @@ public class FitxategiOperazioak {
 		while ((s = br.readLine()) != null) {
 			s=utf8.decode(utf8.encode(s)).toString();
 			String[] sa = s.split("\t");
-			s=s.replaceAll("[^A-Za-z0-9 ]", "");
+			s=s.replaceAll("[^A-Za-z0-9 ]", " ");
 			if (sa[0].equalsIgnoreCase("ham")) {
 				array.add(new String[] { sa[0], s.substring(4, s.length()) });
 			} else if (sa[0].equalsIgnoreCase("spam")) {

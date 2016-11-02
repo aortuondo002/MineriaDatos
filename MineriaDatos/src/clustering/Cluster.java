@@ -2,39 +2,28 @@ package clustering;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import weka.core.DenseInstance;
+import weka.core.Instance;
+import weka.core.Instances;
  
 public class Cluster {
 	
-	public List<Point> points;
-	public Point centroid;
+	public Instances points;
 	public int id;
 	
 	//Creates a new Cluster
-	public Cluster(int id) {
-		this.id = id;
-		this.points = new ArrayList<Point>();
-		this.centroid = null;
+	public Cluster(int id){
 	}
  
-	public List<Point> getPoints() {
+	public List<Instance> getPoints() {
 		return points;
 	}
 	
-	public void addPoint(Point point) {
-		points.add(point);
+	public void addPoint(Instance ins) {
+		points.add(ins);
 	}
  
-	public void setPoints(List<Point> points) {
-		this.points = points;
-	}
- 
-	public Point getCentroid() {
-		return centroid;
-	}
- 
-	public void setCentroid(Point centroid) {
-		this.centroid = centroid;
-	}
  
 	public int getId() {
 		return id;
@@ -44,6 +33,24 @@ public class Cluster {
 		points.clear();
 	}
 	
+	public DenseInstance CalcularCentroide() {
+		DenseInstance centroide = new DenseInstance(points.numAttributes());
+		for (int i = 0; i < points.size(); i++) {
+			if (points.attribute(i).isNumeric()) {
+				double dist=0;
+				for (int j = 0; j < points.size(); j++) {
+					dist += points.get(j).value(i);
+				}
+				dist=dist/points.size();
+				centroide.setValue(i, dist);
+			}else{
+				centroide.setValue(i, points.get(0).stringValue(i));;
+			}
+			
+		}
+		return null;
+	}
+
 	public void plotCluster() {
 		System.out.println("[Cluster: " + id+"]");
 		System.out.println("[Centroid: " + centroid + "]");

@@ -4,13 +4,18 @@ package clustering;
 import java.util.ArrayList;
 import java.util.List;
 
+import weka.attributeSelection.AttributeSelection;
+import weka.attributeSelection.PrincipalComponents;
+import weka.attributeSelection.Ranker;
+import weka.core.Instances;
+
 
 public class KMeans {
 
 	//Number of Clusters. This metric should be related to the number of points
    private int NUM_CLUSTERS = 3;    
    //Number of Points
-   private int NUM_POINTS = 15;
+   private int NUM_POINTS = 0;
    //Min and Max X and Y
    private static final int MIN_COORDINATE = 0;
    private static final int MAX_COORDINATE = 10;
@@ -23,16 +28,22 @@ public class KMeans {
    	this.clusters = new ArrayList<Cluster>();    	
    }
    
-   public static void main(String[] args) {
-   	
-   	KMeans kmeans = new KMeans();
-   	kmeans.init();
+   public static void main(String[] args) throws Exception {
+	 
+	   
+	   
+	   
+	KMeans kmeans = new KMeans();
+   	kmeans.init(args[0]);
    	kmeans.calculate();
    }
    
    //Initializes the process
-   public void init() {
-   	//Create Points
+   public void init(String path) throws Exception {
+	 FitxategiOperazioak f= new FitxategiOperazioak();
+	 Instances lista= f.leerArchivos(path);
+	 NUM_POINTS= f.leerArchivos(path).numInstances();
+   	/*//Create Points
    	points = Point.createRandomPoints(MIN_COORDINATE,MAX_COORDINATE,NUM_POINTS);
    	
    	//Create Clusters
@@ -45,7 +56,7 @@ public class KMeans {
    	}
    	
    	//Print Initial state
-   	plotClusters();
+   	plotClusters();*/
    }
 
 	private void plotClusters() {
