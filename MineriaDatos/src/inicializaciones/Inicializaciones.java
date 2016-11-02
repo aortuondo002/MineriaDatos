@@ -43,7 +43,7 @@ public class Inicializaciones {
 		grupo.add(instancia1);
 		Random r = new Random();
 		for (int j = 0; j < (2 * kClusters); j++) {
-
+			
 			for (int i = 0; i < instancia1.numAttributes(); i++) {
 				if (instancia1.attribute(i).isNumeric()) {
 					instancia1.setValue(i, r.nextDouble());
