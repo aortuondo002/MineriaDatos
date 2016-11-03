@@ -1,5 +1,8 @@
 package clustering;
 
+import java.util.HashMap;
+
+import distanciaMinkowski.DistanciaEntreInstancias;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -7,24 +10,33 @@ import weka.core.Instances;
 public class Cluster {
 
 	public Instance centroide;
+	public Instance antiguoCentroide;
 	public int id;
 	public Instances points;
+	public HashMap<String, Double> dist;
 
 	// Creates a new Cluster
 	public Cluster(int id, Instances grupo) {
+		this.id=id;
 		this.points = grupo;
-		this.centroide = CalcularCentroide();
 	}
-
+	public void addCentroide(Instance ins){
+		this.centroide=ins;
+	}
+	
+	public Instance getCentroide(){
+		return centroide;
+	}
+	
 	public void addPoint(Instance ins) {
 		points.add(ins);
 	}
 
-	public DenseInstance CalcularCentroide() {
+	public void CalcularCentroide() {
 		Instances grupo = new Instances(points);
 		grupo.delete();
-		DenseInstance centroide = new DenseInstance(points.numAttributes());
-		grupo.add(centroide);
+		DenseInstance centro = new DenseInstance(points.numAttributes());
+		grupo.add(centro);
 		for (int i = 0; i < points.size(); i++) {
 			if (points.attribute(i).isNumeric()) {
 				double dist = 0;
@@ -32,18 +44,20 @@ public class Cluster {
 					dist += points.get(j).value(i);
 				}
 				dist = dist / points.size();
-				centroide.setValue(i, dist);
+				centro.setValue(i, dist);
 			} else {
-				centroide.setValue(i, points.get(0).stringValue(i));
+				centro.setValue(i, points.get(0).stringValue(i));
 				;
 			}
 
 		}
-		return centroide;
+		this.antiguoCentroide=this.centroide;
+		this.centroide=centro;
 	}
-
+	
+	
 	public void clear() {
-		points.clear();
+		this.points.delete();
 	}
 
 	public int getId() {
@@ -52,6 +66,10 @@ public class Cluster {
 
 	public Instances getPoints() {
 		return points;
+	}
+	public double CalcularDisimilitud(){
+		DistanciaEntreInstancias mink=new DistanciaEntreInstancias();
+		return mink.calcularDistancia(centroide, antiguoCentroide, 2);
 	}
 
 	public void imprimirCluster() {
@@ -62,5 +80,7 @@ public class Cluster {
 		}
 		System.out.println("]");
 	}
+	
+	
 
 }
