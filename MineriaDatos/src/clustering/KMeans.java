@@ -72,7 +72,9 @@ public class KMeans {
 		switch (convergencia) {
 		case "iteraciones":
 			for (int j = 0; j < Integer.valueOf(constante_umbral); j++) {
-				co.vaciarTodo(clusters);
+				for (int j2 = 0; j2 <cl; j2++) {
+					
+				}
 				co.meterInstanciasEnClusters(clusters, datos, minkowski);
 				co.calcularCentroides(clusters);
 				//co.imprimirClusters(clusters);

@@ -37,9 +37,9 @@ public class Inicializaciones {
 
 			}
 
-			Cluster c = new Cluster(j, grupo);
-			//c.clear();  //PORQUE SE BORRAN LAS INSTANCIAS DE DATOS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			Cluster c = new Cluster(j);
 			
+
 
 			c.addCentroide(instancia1);
 
@@ -64,7 +64,7 @@ public class Inicializaciones {
 				}
 
 			}
-			Cluster c = new Cluster(j, datos);
+			Cluster c = new Cluster(j);
 			c.clear();
 			c.addCentroide(instancia1);
 			clusters.add(c);

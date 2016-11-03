@@ -16,9 +16,9 @@ public class Cluster {
 	public HashMap<String, Double> dist;
 
 	// Creates a new Cluster
-	public Cluster(int id, Instances grupo) {
+	public Cluster(int id) {
 		this.id=id;
-		this.points = grupo;
+		
 	}
 	public void addCentroide(Instance ins){
 		this.centroide=ins;

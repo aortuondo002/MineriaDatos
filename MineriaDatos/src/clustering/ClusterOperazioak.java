@@ -18,7 +18,7 @@ public class ClusterOperazioak {
 	public void meterInstanciasEnClusters(List<Cluster> clusters, Instances datos, int minkowski) {
 		DistanciaEntreInstancias d = new DistanciaEntreInstancias();
 		double distanciaCentroideMinima = Double.MAX_VALUE;
-		Cluster c= new Cluster(0, datos);
+		Cluster c= new Cluster(0);
 		c.clear();
 		for (int i = 0; i < datos.numInstances(); i++) {
 			Instance actual = datos.get(i);
