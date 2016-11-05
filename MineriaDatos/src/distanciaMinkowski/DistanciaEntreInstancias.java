@@ -20,7 +20,14 @@ public class DistanciaEntreInstancias {
 				sumatorio = sumatorio + Math.pow(Math.abs(valorIns1-valorIns2), distancia);
 			}
 		}
-		valor = Math.pow(sumatorio, 1 / distancia);
+		if (distancia==1){
+			return sumatorio;
+		}else if(distancia==2){
+		valor = Math.sqrt(sumatorio);
+		}else if(distancia==3){
+		valor = Math.cbrt(sumatorio);
+
+		}
 		return valor;
 
 	}
