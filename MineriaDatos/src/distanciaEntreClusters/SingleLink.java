@@ -33,6 +33,5 @@ public class SingleLink {
 		}
 		return resultado;
 	}
-	
-	
+
 }

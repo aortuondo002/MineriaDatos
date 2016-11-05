@@ -9,35 +9,43 @@ import weka.core.Instances;
 
 public class Cluster {
 
-	public Instance centroide;
 	public Instance antiguoCentroide;
+	public Instance centroide;
+	public HashMap<String, Double> dist;
 	public int id;
 	public Instances points;
-	public HashMap<String, Double> dist;
 
 	// Creates a new Cluster
 	public Cluster(int id) {
-		this.id=id;
-		
+		this.id = id;
 	}
-	public void addCentroide(Instance ins){
-		this.centroide=ins;
+
+	public Cluster(int id, Instances datos) {
+		this.id = id;
+		this.points = datos;
 	}
-	
-	public Instance getCentroide(){
-		return centroide;
+
+	public void addCentroide(Instance ins) {
+		this.centroide = ins;
 	}
-	
+
 	public void addPoint(Instance ins) {
-		points.add(ins);
+		this.points.add(ins);
+	}
+
+	public void añadirPuntos(Instances puntos) {
+		this.points = puntos;
 	}
 
 	public void CalcularCentroide() {
-		Instances grupo = new Instances(points);
-		grupo.delete();
+		Instances nuevo = new Instances(getPoints());
+		nuevo.delete();
 		DenseInstance centro = new DenseInstance(points.numAttributes());
-		grupo.add(centro);
-		for (int i = 0; i < points.size(); i++) {
+		nuevo.add(centro);
+		centro.setDataset(nuevo);
+		
+		if(points.numInstances()!=0){
+		for (int i = 0; i < points.numAttributes(); i++) {
 			if (points.attribute(i).isNumeric()) {
 				double dist = 0;
 				for (int j = 0; j < points.size(); j++) {
@@ -47,17 +55,29 @@ public class Cluster {
 				centro.setValue(i, dist);
 			} else {
 				centro.setValue(i, points.get(0).stringValue(i));
-				;
+
 			}
 
 		}
-		this.antiguoCentroide=this.centroide;
-		this.centroide=centro;
+		}
+		if (!(this.centroide == null)) {
+			this.antiguoCentroide = this.centroide;
+		}
+
+		this.centroide = centro;
 	}
-	
-	
+
+	public double CalcularDisimilitud() {
+		DistanciaEntreInstancias mink = new DistanciaEntreInstancias();
+		return mink.calcularDistancia(centroide, antiguoCentroide, 2);
+	}
+
 	public void clear() {
 		this.points.delete();
+	}
+
+	public Instance getCentroide() {
+		return centroide;
 	}
 
 	public int getId() {
@@ -66,10 +86,6 @@ public class Cluster {
 
 	public Instances getPoints() {
 		return points;
-	}
-	public double CalcularDisimilitud(){
-		DistanciaEntreInstancias mink=new DistanciaEntreInstancias();
-		return mink.calcularDistancia(centroide, antiguoCentroide, 2);
 	}
 
 	public void imprimirCluster() {
@@ -80,7 +96,5 @@ public class Cluster {
 		}
 		System.out.println("]");
 	}
-	
-	
 
 }
