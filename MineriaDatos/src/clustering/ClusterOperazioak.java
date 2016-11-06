@@ -25,8 +25,7 @@ public class ClusterOperazioak {
 
 	public void imprimirClusters(List<Cluster> clusters) {
 		for (int i = 0; i < clusters.size(); i++) {
-			Cluster c = clusters.get(i);
-			System.out.println(c.getId() + " = " + c.getPoints().numInstances());
+			System.out.println(clusters.get(i).getId() + " = " + clusters.get(i).getPoints().numInstances());
 		}
 	}
 

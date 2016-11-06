@@ -44,15 +44,23 @@ public class Cluster {
 		nuevo.add(centro);
 		centro.setDataset(nuevo);
 		
-		if(points.numInstances()!=0){
-		for (int i = 0; i < points.numAttributes(); i++) {
+		if(getPoints().numInstances()!=0){
+			
+		for (int i = 0; i < getPoints().numAttributes(); i++) {
+			
 			if (points.attribute(i).isNumeric()) {
+				
 				double dist = 0;
-				for (int j = 0; j < points.size(); j++) {
+				
+				for (int j = 0; j < points.numInstances(); j++) {
+					
 					dist += points.get(j).value(i);
+					
 				}
 				dist = dist / points.size();
+				
 				centro.setValue(i, dist);
+				
 			} else {
 				centro.setValue(i, points.get(0).stringValue(i));
 

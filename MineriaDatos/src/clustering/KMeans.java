@@ -83,18 +83,38 @@ public class KMeans {
 		switch (convergencia) {
 		case "iteraciones":
 			for (int j = 0; j < Integer.valueOf(constante_umbral); j++) {
-				// if(j!=0){
+				
 				co.vaciarTodo(clusters);
-				// }
 				co.meterInstanciasEnClusters(clusters, datos, minkowski);
 				co.calcularCentroides(clusters);
 				co.imprimirClusters(clusters);
 			}
+	
 
 			break;
 
 		case "disimilitud":
-
+			
+			/*while(co.calcularDisimilitudMedia(clusters)>Double.valueOf(constante_umbral)){
+				co.vaciarTodo(clusters);
+				co.meterInstanciasEnClusters(clusters, datos, minkowski);
+				co.calcularCentroides(clusters);
+				co.imprimirClusters(clusters);
+			}*/
+			co.vaciarTodo(clusters);
+			co.meterInstanciasEnClusters(clusters, datos, minkowski);
+			co.calcularCentroides(clusters);
+			co.imprimirClusters(clusters);
+			
+			co.vaciarTodo(clusters);
+			co.meterInstanciasEnClusters(clusters, datos, minkowski);
+			co.calcularCentroides(clusters);
+			co.imprimirClusters(clusters);
+			
+			co.vaciarTodo(clusters);
+			co.meterInstanciasEnClusters(clusters, datos, minkowski);
+			co.calcularCentroides(clusters);
+			co.imprimirClusters(clusters);
 			break;
 		}
 
