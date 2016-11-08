@@ -38,41 +38,26 @@ public class Cluster {
 	}
 
 	public void CalcularCentroide() {
-		Instances nuevo = new Instances(getPoints());
-		nuevo.delete();
-		DenseInstance centro = new DenseInstance(points.numAttributes());
-		nuevo.add(centro);
-		centro.setDataset(nuevo);
-		
-		if(getPoints().numInstances()!=0){
-			
-		for (int i = 0; i < getPoints().numAttributes(); i++) {
-			
-			if (points.attribute(i).isNumeric()) {
-				
-				double dist = 0;
-				
-				for (int j = 0; j < points.numInstances(); j++) {
-					
-					dist += points.get(j).value(i);
-					
+		Instance nuevoCentroide = new DenseInstance(getPoints().numAttributes());
+		nuevoCentroide.setDataset(getPoints());
+
+		if (this.centroide == null) {
+			double distancia = 0;
+			for (int i = 0; i < getPoints().numAttributes(); i++) {
+				if (points.attribute(i).isNumeric()) {
+					distancia = 0;
+					for (int j = 0; j < getPoints().numInstances(); j++) {
+						distancia += getPoints().get(j).value(i);
+					}
 				}
-				dist = dist / points.size();
-				
-				centro.setValue(i, dist);
-				
-			} else {
-				centro.setValue(i, points.get(0).stringValue(i));
-
+				int puntos = this.points.numInstances();
+				distancia = distancia / puntos;
+				nuevoCentroide.setValue(i, distancia);
+				addCentroide(nuevoCentroide);
 			}
-
 		}
-		}
-		if (!(this.centroide == null)) {
-			this.antiguoCentroide = this.centroide;
-		}
-
-		this.centroide = centro;
+		this.antiguoCentroide=nuevoCentroide;
+		if(this)
 	}
 
 	public double CalcularDisimilitud() {
