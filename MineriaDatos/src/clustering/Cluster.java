@@ -3,6 +3,7 @@ package clustering;
 import java.util.HashMap;
 
 import distanciaMinkowski.DistanciaEntreInstancias;
+import weka.classifiers.rules.JRip.NumericAntd;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -11,9 +12,9 @@ public class Cluster {
 
 	public Instance antiguoCentroide;
 	public Instance centroide;
-	public HashMap<String, Double> dist;
 	public int id;
 	public Instances points;
+	public DistanciaEntreInstancias d;
 
 	// Creates a new Cluster
 	public Cluster(int id) {
@@ -38,26 +39,43 @@ public class Cluster {
 	}
 
 	public void CalcularCentroide() {
-		Instance nuevoCentroide = new DenseInstance(getPoints().numAttributes());
-		nuevoCentroide.setDataset(getPoints());
-
-		if (this.centroide == null) {
+		
+			Instance nuevoCentroide = new DenseInstance(this.points.numAttributes());
+			nuevoCentroide.setDataset(this.points);
 			double distancia = 0;
-			for (int i = 0; i < getPoints().numAttributes(); i++) {
+			for (int i = 0; i < this.points.numAttributes(); i++) {
 				if (points.attribute(i).isNumeric()) {
 					distancia = 0;
-					for (int j = 0; j < getPoints().numInstances(); j++) {
-						distancia += getPoints().get(j).value(i);
+					for (int j = 0; j < this.points.numInstances(); j++) {
+						distancia += this.points.get(j).value(i);
 					}
 				}
 				int puntos = this.points.numInstances();
 				distancia = distancia / puntos;
 				nuevoCentroide.setValue(i, distancia);
-				addCentroide(nuevoCentroide);
 			}
+			addCentroide(nuevoCentroide);
+	}
+	
+	public void reCalcularCentroide(){
+		this.antiguoCentroide=this.centroide;
+		if(this.points.numInstances()>1){
+		Instance nuevoCentroide = new DenseInstance(this.points.numAttributes());
+		nuevoCentroide.setDataset(this.points);
+		double distancia = 0;
+		for (int i = 0; i < this.points.numAttributes(); i++) {
+			if (points.attribute(i).isNumeric()) {
+				distancia = 0;
+				for (int j = 0; j < this.points.numInstances(); j++) {
+					distancia += this.points.get(j).value(i);
+				}
+			}
+			int puntos = this.points.numInstances();
+			distancia = distancia / puntos;
+			nuevoCentroide.setValue(i, distancia);
 		}
-		this.antiguoCentroide=nuevoCentroide;
-		if(this)
+		addCentroide(nuevoCentroide);
+		}
 	}
 
 	public double CalcularDisimilitud() {
@@ -89,5 +107,6 @@ public class Cluster {
 		}
 		System.out.println("]");
 	}
+	
 
 }

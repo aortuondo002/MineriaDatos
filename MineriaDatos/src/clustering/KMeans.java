@@ -18,6 +18,7 @@ public class KMeans {
 	private static FitxategiOperazioak f = new FitxategiOperazioak();
 	private static Inicializaciones init = new Inicializaciones();
 	private static SingleLink singleLink = new SingleLink();
+	private static Silhouette s= new Silhouette();
 
 	public static void main(String[] args) throws Exception {
 		List<Cluster> clusters = new ArrayList<Cluster>();
@@ -46,7 +47,7 @@ public class KMeans {
 			
 			Random r = new Random();
 			
-			for (int a = 0; a < 5; a++) {
+			for (int a = 0; a < r.nextInt(20); a++) {
 				Instances nuevo = new Instances(datos);
 				Cluster c = new Cluster(a, datos);
 				DenseInstance centroide = new DenseInstance(nuevo.numAttributes());
@@ -82,21 +83,15 @@ public class KMeans {
 
 		switch (convergencia) {
 		case "iteraciones":
-			/*for (int j = 0; j < Integer.valueOf(constante_umbral); j++) {
+
+			for (int j = 0; j < Integer.valueOf(constante_umbral); j++) {
 				
 				co.vaciarTodo(clusters);
 				co.meterInstanciasEnClusters(clusters, datos, minkowski);
-				co.calcularCentroides(clusters);
+				co.reCalcularCentroides(clusters);
 				co.imprimirClusters(clusters);
-			}*/
-			co.vaciarTodo(clusters);
-			co.meterInstanciasEnClusters(clusters, datos, minkowski);
-			co.calcularCentroides(clusters);
-			co.imprimirClusters(clusters);
-			co.vaciarTodo(clusters);
-			co.meterInstanciasEnClusters(clusters, datos, minkowski);
-			co.calcularCentroides(clusters);
-			co.imprimirClusters(clusters);
+			}
+			
 	
 
 			break;
@@ -106,9 +101,12 @@ public class KMeans {
 			while(co.calcularDisimilitudMedia(clusters)>Double.valueOf(constante_umbral)){
 				co.vaciarTodo(clusters);
 				co.meterInstanciasEnClusters(clusters, datos, minkowski);
-				co.calcularCentroides(clusters);
+				co.reCalcularCentroides(clusters);
 				co.imprimirClusters(clusters);
 			}
+			
+			break;
+			
 			
 		}
 

@@ -1,16 +1,18 @@
 package clustering;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import distanciaMinkowski.DistanciaEntreInstancias;
+import weka.clusterers.ClusterEvaluation;
 import weka.core.Instance;
 import weka.core.Instances;
 
 public class ClusterOperazioak {
 
-	public void calcularCentroides(List<Cluster> clusters) {
+	public void reCalcularCentroides(List<Cluster> clusters) {
 		for (int i = 0; i < clusters.size(); i++) {
-			clusters.get(i).CalcularCentroide();
+			clusters.get(i).reCalcularCentroide();
 		}
 	}
 
@@ -57,5 +59,8 @@ public class ClusterOperazioak {
 			clusters.get(i).clear();
 		}
 	}
+	
+	
+	
 
 }
